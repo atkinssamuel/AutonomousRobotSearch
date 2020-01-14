@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(AutonomousRobotSearch)
+project(mie443_contest1)
 
 add_compile_options(-std=c++11)
 
