@@ -41,7 +41,7 @@ void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
     minLaserDist = std::numeric_limits<float>::infinity();
     nLasers = (msg->angle_max-msg->angle_min)/msg->angle_increment;
     desiredNLasers = desiredAngle*M_PI/(180*msg->angle_increment);
-    // ROS_INFO("Size of laserscan array:%iand size ofoffset:%i", nLasers, desiredNLasers);
+    ROS_INFO("Size of laserscan array:%i and size ofoffset: %i", nLasers, desiredNLasers);
 
     if(desiredAngle*M_PI/180 < msg->angle_max && -desiredAngle*M_PI/180 > msg->angle_min) 
     {
@@ -65,7 +65,7 @@ void odomCallback(const nav_msgs::Odometry::ConstPtr& msg)
     posY = msg->pose.pose.position.y;
     yaw = tf::getYaw(msg->pose.pose.orientation);
     tf::getYaw(msg->pose.pose.orientation);
-    // ROS_INFO("Position: (%f,%f) Orientation:%frad or%fdegrees.", posX, posY, yaw, RAD2DEG(yaw));
+    // ROS_INFO("Position: (%f, %f) Orientation: %f rad or %f degrees.", posX, posY, yaw, RAD2DEG(yaw));
 }
 
 
@@ -138,7 +138,7 @@ int main(int argc, char **argv)
             straightFlag = false;
         }
 
-        if (minLaserDist > 1 && minLaserDist < 100) {
+        if (minLaserDist > 1 && minLaserDist < 100 && turnFlag) {
             turnFlag = false;
             straightFlag = true;
         }
