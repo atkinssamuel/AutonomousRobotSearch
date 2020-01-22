@@ -136,10 +136,11 @@ int main(int argc, char **argv)
         if ((minLaserDist < 0.5 || minLaserDist > 100) && !turnFlag) {
             turnFlag = true;
             straightFlag = false;
-        }
-
-        if (minLaserDist > 1 && minLaserDist < 100) {
-            turnFlag = false;
+            desiredYaw = yaw + DEG2RAD(110);
+            if (desiredYaw > M_PIl) {
+                desiredYaw = desiredYaw - 2 * M_PIl;
+            }
+        } else if (!turnFlag) {
             straightFlag = true;
         }
 
@@ -152,7 +153,10 @@ int main(int argc, char **argv)
             linear = 0.2;
         }
 
-        
+        if (abs(yaw - desiredYaw) < 0.1 && turnFlag) {
+            turnFlag = false;
+            straightFlag = true;
+        }
 
 
         vel.linear.x = linear;
