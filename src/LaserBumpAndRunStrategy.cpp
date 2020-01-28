@@ -8,9 +8,11 @@ LaserBumpAndRunStrategy::LaserBumpAndRunStrategy()
     _movingForward = true;
 }
 
-geometry_msgs::Twist LaserBumpAndRunStrategy::step(uint8_t bumper[3], float minLaserDistance)
+geometry_msgs::Twist LaserBumpAndRunStrategy::step(BumperData bumperData, LaserData laserData)
 {
     geometry_msgs::Twist vel;
+
+    float minLaserDistance = laserData.getMinDistance();
 
     if (_turning)
     {

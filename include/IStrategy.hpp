@@ -3,10 +3,13 @@
 
 #include <geometry_msgs/Twist.h>
 
+#include "BumperData.hpp"
+#include "LaserData.hpp"
+
 class IStrategy
 {
 public:
-    virtual geometry_msgs::Twist step(uint8_t bumper[3], float minLaserDistance) = 0;
+    virtual geometry_msgs::Twist step(BumperData bumperData, LaserData laserData) = 0;
 };
 
 #endif
