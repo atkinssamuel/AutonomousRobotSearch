@@ -17,6 +17,9 @@ private:
     bool _turning;
     bool _turningRandom;
 
+    float angular;
+    float linear;
+
 public:
     RandomWalk();
 

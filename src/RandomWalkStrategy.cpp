@@ -2,7 +2,7 @@
 #include <ros/console.h>
 #include "ros/ros.h"
 #include <kobuki_msgs/BumperEvent.h>
-#include "RandomWalk.hpp"
+#include "RandomWalkStrategy.hpp"
 
 RandomWalk::RandomWalk()
 {
@@ -12,6 +12,9 @@ RandomWalk::RandomWalk()
 
     _turnTimeThreshold = 10; //seconds
     _randomTurnTimeThreshold = 0; //seconds
+
+    angular = 0;
+    linear = 0;
 }
 
 geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData)
@@ -67,7 +70,7 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
         if (minLaserDistance < 0.5 || minLaserDistance > 100)
         {
             vel.linear.x = 0.0;
-            vel.angular.z = 0.0;
+            vel.angular.z = 1;
 
             _movingForward = false;
             _turning = true;

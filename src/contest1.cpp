@@ -17,7 +17,7 @@
 #include "BumpAndRunStrategy.hpp"
 #include "AtkinsTestStrategy.hpp"
 #include "LaserBumpAndRunStrategy.hpp"
-#include "RandomWalk.hpp"
+#include "RandomWalkStrategy.hpp"
 #include "Spiral.hpp"
 
 #define RAD2DEG(rad) ((rad)*180. / M_PI)

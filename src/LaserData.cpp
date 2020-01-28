@@ -1,4 +1,5 @@
 #include <sensor_msgs/LaserScan.h>
+#include <cmath>
 
 #include "LaserData.hpp"
 
@@ -25,4 +26,34 @@ float LaserData::getMinDistance()
     }
 
     return minDistance;
+}
+
+float LaserData::getLeftDistance() 
+{
+    float leftDistance = 0;
+    int leftLasers = 100;
+    int leftUsed = 0;
+    for (int i = 0; i < leftLasers; i++) {
+        if(_laserArray[i] < 100)  {
+            leftDistance += _laserArray[i];
+            leftUsed++;
+        }
+    }
+    leftDistance = leftDistance /((float) leftUsed);
+    return leftDistance;
+}
+
+float LaserData::getRightDistance() 
+{
+    float rightDistance = 0;
+    int rightLasers = 539;
+    int rightUsed = 0;
+    for (int i = rightLasers; i < NUM_LASERS; i++) {
+        if(_laserArray[i] < 100)  {
+            rightDistance += _laserArray[i];
+            rightUsed++;
+        }
+    }
+    rightDistance = rightDistance / ((float)rightUsed);
+    return rightDistance;
 }

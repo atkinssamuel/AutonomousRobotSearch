@@ -27,6 +27,8 @@ public:
     LaserData();
     void updateState(const sensor_msgs::LaserScan::ConstPtr &msg);
     float getMinDistance();
+    float getLeftDistance();
+    float getRightDistance();
 };
 
 #endif
