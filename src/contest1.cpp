@@ -16,7 +16,7 @@
 
 #include "BumpAndRunStrategy.hpp"
 #include "LaserBumpAndRunStrategy.hpp"
-#include "RandomWalk.hpp"
+#include "RandomWalkStrategy.hpp"
 #include "Spiral.hpp"
 
 #define RAD2DEG(rad) ((rad)*180. / M_PI)
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-    IStrategy *strategy = new Spiral();
+    IStrategy *strategy = new RandomWalk();
 
     while (ros::ok() && secondsElapsed <= 480)
     {
