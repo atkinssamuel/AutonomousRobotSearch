@@ -14,7 +14,7 @@ private:
 public:
     LaserBumpAndRunStrategy();
 
-    geometry_msgs::Twist step(uint8_t bumper[3], float minLaserDistance) override;
+    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData) override;
 };
 
 #endif

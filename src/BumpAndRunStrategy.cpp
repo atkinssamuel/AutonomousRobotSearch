@@ -12,7 +12,7 @@ BumpAndRunStrategy::BumpAndRunStrategy()
     _turnTimeThreshold = 10; //seconds
 }
 
-geometry_msgs::Twist BumpAndRunStrategy::step(uint8_t bumper[3], float minLaserDistance)
+geometry_msgs::Twist BumpAndRunStrategy::step(BumperData bumperData, LaserData LaserData)
 {
     geometry_msgs::Twist vel;
 
@@ -36,13 +36,7 @@ geometry_msgs::Twist BumpAndRunStrategy::step(uint8_t bumper[3], float minLaserD
         vel.linear.x = 0.1;
         vel.angular.z = 0.0;
 
-        bool any_bumper_pressed = false;
-        for (uint32_t b_idx = 0; b_idx < N_BUMPER; ++b_idx)
-        {
-            any_bumper_pressed |= (bumper[b_idx] == kobuki_msgs::BumperEvent::PRESSED);
-        }
-
-        if (any_bumper_pressed)
+        if (bumperData.anyBumperPressed())
         {
             vel.linear.x = 0.0;
             vel.angular.z = 0.0;
