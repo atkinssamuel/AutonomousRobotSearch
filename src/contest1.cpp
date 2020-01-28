@@ -27,7 +27,6 @@ using namespace std;
 
 float posX = 0.0, posY = 0.0, yaw = 0.0;
 
-float minLaserDist = std::numeric_limits<float>::infinity();
 int32_t nLasers = 0, desiredNLasers = 0, desiredAngle = 5;
 
 BumperData bumperData;
