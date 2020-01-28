@@ -39,25 +39,6 @@ void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr &msg)
 
 void laserCallback(const sensor_msgs::LaserScan::ConstPtr &msg)
 {
-    minLaserDist = std::numeric_limits<float>::infinity();
-    nLasers = (msg->angle_max - msg->angle_min) / msg->angle_increment;
-    desiredNLasers = desiredAngle * M_PI / (180 * msg->angle_increment);
-    //ROS_INFO("Size of laserscan array:%i and size ofoffset: %i", nLasers, desiredNLasers);
-
-    if (desiredAngle * M_PI / 180 < msg->angle_max && -desiredAngle * M_PI / 180 > msg->angle_min)
-    {
-        for (uint32_t laser_idx = nLasers / 2 - desiredNLasers; laser_idx < nLasers / 2 + desiredNLasers; ++laser_idx)
-        {
-            minLaserDist = std::min(minLaserDist, msg->ranges[laser_idx]);
-        }
-    }
-    else
-    {
-        for (uint32_t laser_idx = 0; laser_idx < nLasers; ++laser_idx)
-        {
-            minLaserDist = std::min(minLaserDist, msg->ranges[laser_idx]);
-        }
-    }
     laserData.updateState(msg);
 }
 

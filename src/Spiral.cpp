@@ -9,13 +9,13 @@ Spiral::Spiral()
     _moving = true;
 }
 
-geometry_msgs::Twist Spiral::step(uint8_t bumper[3], float minLaserDistance)
+geometry_msgs::Twist Spiral::step(BumperData bumperData, LaserData laserData)
 {
     geometry_msgs::Twist vel;
 
     if (_moving) {
 
-        if (minLaserDistance > 0.5 && minLaserDistance < 100) {
+        if (laserData.getMinDistance() > 0.5 && laserData.getMinDistance() < 100) {
             _moving = true;
 
             vel.linear.x = 0.5;
@@ -31,7 +31,7 @@ geometry_msgs::Twist Spiral::step(uint8_t bumper[3], float minLaserDistance)
 
         vel.linear.x = 0;
         vel.angular.z = 1;
-        if (minLaserDistance > .5 && minLaserDistance < 100) {
+        if (laserData.getMinDistance() > .5 && laserData.getMinDistance() < 100) {
             _moving = true;
 
             vel.linear.x = 0.5;
