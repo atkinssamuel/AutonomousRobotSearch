@@ -10,14 +10,14 @@ RandomWalk::RandomWalk()
     _movingForward = true;
     _turningRandom = false;
 
-    _turnTimeThreshold = 10; //seconds
+    _turnTimeThreshold = 10;      //seconds
     _randomTurnTimeThreshold = 0; //seconds
 
     angular = 0;
     linear = 0;
 }
 
-geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData)
+geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     geometry_msgs::Twist vel;
     float minLaserDistance = laserData.getMinDistance();
@@ -27,10 +27,8 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
         vel.linear.x = 0.0;
         vel.angular.z = 1;
 
-
         if (minLaserDistance > 1 && minLaserDistance < 100)
         {
-
 
             vel.linear.x = 0.0;
             vel.angular.z = 1;
@@ -44,7 +42,8 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
             _randomTurnTimeThreshold = (rand() % 4) + 1;
         }
     }
-    else if(_turningRandom) {
+    else if (_turningRandom)
+    {
         // Get the current time
         vel.angular.z = 1;
         std::chrono::time_point<std::chrono::system_clock> currTime = std::chrono::system_clock::now();
@@ -53,7 +52,8 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
         //std::chrono::duration_cast<std::chrono::seconds>(currTime - _randomTurnStartTime).count();
         ROS_INFO("here");
         // If we have been turning for longer than our threshold, go into the moving forward loop
-        if (std::chrono::duration_cast<std::chrono::seconds>(currTime - _randomTurnStartTime).count() > _randomTurnTimeThreshold) {
+        if (std::chrono::duration_cast<std::chrono::seconds>(currTime - _randomTurnStartTime).count() > _randomTurnTimeThreshold)
+        {
             vel.linear.x = 0.0;
             vel.angular.z = 0.0;
 

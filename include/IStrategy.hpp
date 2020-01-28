@@ -5,11 +5,12 @@
 
 #include "BumperData.hpp"
 #include "LaserData.hpp"
+#include "OdomData.hpp"
 
 class IStrategy
 {
 public:
-    virtual geometry_msgs::Twist step(BumperData bumperData, LaserData laserData) = 0;
+    virtual geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) = 0;
 };
 
 #endif

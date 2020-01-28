@@ -25,12 +25,9 @@
 
 using namespace std;
 
-float posX = 0.0, posY = 0.0, yaw = 0.0;
-
-int32_t nLasers = 0, desiredNLasers = 0, desiredAngle = 5;
-
 BumperData bumperData;
 LaserData laserData;
+OdomData odomData;
 
 void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr &msg)
 {
@@ -44,10 +41,7 @@ void laserCallback(const sensor_msgs::LaserScan::ConstPtr &msg)
 
 void odomCallback(const nav_msgs::Odometry::ConstPtr &msg)
 {
-    posX = msg->pose.pose.position.x;
-    posY = msg->pose.pose.position.y;
-    yaw = tf::getYaw(msg->pose.pose.orientation);
-    // ROS_INFO("Position: (%f, %f) Orientation: %f rad or %f degrees.", posX, posY, yaw, RAD2DEG(yaw));
+    odomData.updateState(msg);
 }
 
 int main(int argc, char **argv)
@@ -70,13 +64,13 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-    IStrategy *strategy = new AtkinsTestStrategy();
+    IStrategy *strategy = new Spiral();
 
     while (ros::ok() && secondsElapsed <= 480)
     {
         ros::spinOnce();
 
-        vel = strategy->step(bumperData, laserData);
+        vel = strategy->step(bumperData, laserData, odomData);
 
         vel_pub.publish(vel);
 
