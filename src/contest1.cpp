@@ -12,6 +12,8 @@
 
 #include "BumpAndRunStrategy.hpp"
 #include "LaserBumpAndRunStrategy.hpp"
+#include "RandomWalk.hpp"
+#include "Spiral.hpp"
 
 #define RAD2DEG(rad) ((rad)*180. / M_PI)
 #define DEG2RAD(deg) ((deg)*M_PI / 180.)
@@ -36,7 +38,7 @@ void laserCallback(const sensor_msgs::LaserScan::ConstPtr &msg)
     minLaserDist = std::numeric_limits<float>::infinity();
     nLasers = (msg->angle_max - msg->angle_min) / msg->angle_increment;
     desiredNLasers = desiredAngle * M_PI / (180 * msg->angle_increment);
-    ROS_INFO("Size of laserscan array:%i and size ofoffset: %i", nLasers, desiredNLasers);
+    //ROS_INFO("Size of laserscan array:%i and size ofoffset: %i", nLasers, desiredNLasers);
 
     if (desiredAngle * M_PI / 180 < msg->angle_max && -desiredAngle * M_PI / 180 > msg->angle_min)
     {
@@ -82,7 +84,7 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-    IStrategy *strategy = new LaserBumpAndRunStrategy();
+    IStrategy *strategy = new Spiral();
 
     while (ros::ok() && secondsElapsed <= 480)
     {
