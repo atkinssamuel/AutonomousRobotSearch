@@ -12,7 +12,7 @@ BumpAndRunStrategy::BumpAndRunStrategy()
     _turnTimeThreshold = 10; //seconds
 }
 
-geometry_msgs::Twist BumpAndRunStrategy::step(BumperData bumperData, LaserData LaserData)
+geometry_msgs::Twist BumpAndRunStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     geometry_msgs::Twist vel;
 

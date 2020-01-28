@@ -8,12 +8,12 @@
 class Spiral : public IStrategy
 {
 private:
-
     bool _moving;
+
 public:
     Spiral();
 
-    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData) override;
+    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };
 
 #endif
