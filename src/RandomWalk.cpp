@@ -14,9 +14,10 @@ RandomWalk::RandomWalk()
     _randomTurnTimeThreshold = 0; //seconds
 }
 
-geometry_msgs::Twist RandomWalk::step(uint8_t bumper[3], float minLaserDistance)
+geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData)
 {
     geometry_msgs::Twist vel;
+    float minLaserDistance = laserData.getMinDistance();
 
     if (_turning)
     {
