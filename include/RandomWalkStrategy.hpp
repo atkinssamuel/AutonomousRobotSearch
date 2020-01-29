@@ -8,7 +8,7 @@
 class RandomWalk : public IStrategy
 {
 private:
-    uint64_t _turnTimeThreshold; //seconds
+    uint64_t _turnTimeThreshold;       //seconds
     uint64_t _randomTurnTimeThreshold; //seconds
     std::chrono::time_point<std::chrono::system_clock> _turnStartTime;
     std::chrono::time_point<std::chrono::system_clock> _randomTurnStartTime;
@@ -23,7 +23,7 @@ private:
 public:
     RandomWalk();
 
-    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData) override;
+    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };
 
 #endif

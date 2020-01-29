@@ -17,7 +17,7 @@ private:
 public:
     BumpAndRunStrategy();
 
-    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData) override;
+    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };
 
 #endif

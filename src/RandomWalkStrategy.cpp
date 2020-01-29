@@ -10,14 +10,14 @@ RandomWalk::RandomWalk()
     _movingForward = true;
     _turningRandom = false;
 
-    _turnTimeThreshold = 10; //seconds
+    _turnTimeThreshold = 10;      //seconds
     _randomTurnTimeThreshold = 0; //seconds
 
     angular = 0;
     linear = 0;
 }
 
-geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData)
+geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     geometry_msgs::Twist vel;
     float minLaserDistance = laserData.getMinDistance();
@@ -42,7 +42,8 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
             _randomTurnTimeThreshold = (rand() % 2);
         }
     }
-    else if(_turningRandom) {
+    else if (_turningRandom)
+    {
         // Get the current time
         std::chrono::time_point<std::chrono::system_clock> currTime = std::chrono::system_clock::now();
 

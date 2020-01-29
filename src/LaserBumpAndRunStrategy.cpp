@@ -8,7 +8,7 @@ LaserBumpAndRunStrategy::LaserBumpAndRunStrategy()
     _movingForward = true;
 }
 
-geometry_msgs::Twist LaserBumpAndRunStrategy::step(BumperData bumperData, LaserData laserData)
+geometry_msgs::Twist LaserBumpAndRunStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     geometry_msgs::Twist vel;
 
