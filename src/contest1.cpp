@@ -15,7 +15,7 @@
 #include "LaserData.hpp"
 
 #include "BumpAndRunStrategy.hpp"
-#include "AtkinsTestStrategy.hpp"
+//#include "AtkinsTestStrategy.hpp"
 #include "LaserBumpAndRunStrategy.hpp"
 #include "RandomWalkStrategy.hpp"
 #include "Spiral.hpp"
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-    IStrategy *strategy = new AtkinsTestStrategy();
+    IStrategy *strategy = new RandomWalk();
 
     while (ros::ok() && secondsElapsed <= 480)
     {

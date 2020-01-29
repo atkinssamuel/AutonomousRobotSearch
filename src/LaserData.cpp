@@ -20,7 +20,7 @@ void LaserData::updateState(const sensor_msgs::LaserScan::ConstPtr &msg)
 float LaserData::getMinDistance()
 {
     float minDistance = std::numeric_limits<float>::infinity();
-    for (int i = 0; i < NumLasers; i++)
+    for (int i = 200; i < 336; i++)
     {
         minDistance = std::min(minDistance, _laserArray[i]);
     }
