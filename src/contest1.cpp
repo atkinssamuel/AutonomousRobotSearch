@@ -20,6 +20,7 @@
 #include "RandomWalkStrategy.hpp"
 #include "Spiral.hpp"
 #include "SpinStrategy.hpp"
+#include "SimulationDetector.hpp"
 
 #define RAD2DEG(rad) ((rad)*180. / M_PI)
 #define DEG2RAD(deg) ((deg)*M_PI / 180.)

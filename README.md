@@ -9,6 +9,14 @@ To begin, make sure that you've sourced ```catkin_ws/devel/setup.bash```, or tha
 
 Make sure that you don't run both the context code and keyboard teleop at the same time, as the messages published by each will interfere with each other.
 
+## Regular Launch Instructions
+On laptop 17, run the following commands in separate terminals:
+
+* ```roslaunch turtlebot_bringup minimal.launch```
+* ```roslaunch mie443_contest1 gmapping.launch```
+* ```roslaunch turtlebot_rviz_launchers view_navigation.launch```
+* ```rosrun mie443_contest1 contest1```
+
 ## Regenerating Compile Commands
 Use the following command to regenerate the compile commands used by VSCode for code linting.
 ```
