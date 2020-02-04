@@ -32,6 +32,8 @@ add_executable(
 	src/OdomData.cpp
 	src/RandomWalkStrategy.cpp
 	src/Spiral.cpp
+	src/SimulationDetector.cpp
+	src/StraightLine.cpp
 )
 target_link_libraries(contest1 ${catkin_LIBRARIES} ${OpenCV_LIB})
 
