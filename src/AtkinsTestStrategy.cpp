@@ -8,7 +8,7 @@ AtkinsTestStrategy::AtkinsTestStrategy()
     _movingForward = true;
 }
 
-geometry_msgs::Twist AtkinsTestStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
+geometry_msgs::Twist AtkinsTestStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed)
 {
     geometry_msgs::Twist vel;
 

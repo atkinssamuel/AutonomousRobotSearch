@@ -22,7 +22,7 @@ private:
 public:
     SpinStrategy();
     bool _finished;
-    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
+    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed) override;
 };
 
 #endif

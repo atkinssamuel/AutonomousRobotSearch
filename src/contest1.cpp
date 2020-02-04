@@ -16,6 +16,7 @@
 
 #include "BumpAndRunStrategy.hpp"
 #include "AtkinsTestStrategy.hpp"
+#include "Master.hpp"
 #include "LaserBumpAndRunStrategy.hpp"
 #include "RandomWalkStrategy.hpp"
 #include "Spiral.hpp"
@@ -66,13 +67,13 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-    IStrategy *strategy = new SpinStrategy();
+    IStrategy *strategy = new Master();
 
     while (ros::ok() && secondsElapsed <= 480)
     {
         ros::spinOnce();
 
-        vel = strategy->step(bumperData, laserData, odomData);
+        vel = strategy->step(bumperData, laserData, odomData, secondsElapsed);
 
         vel_pub.publish(vel);
 

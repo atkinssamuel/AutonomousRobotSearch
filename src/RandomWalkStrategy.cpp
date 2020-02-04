@@ -17,7 +17,7 @@ RandomWalk::RandomWalk()
     linear = 0;
 }
 
-geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData, OdomData odomData)
+geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed)
 {
     geometry_msgs::Twist vel;
     float minLaserDistance = laserData.getMinDistance();

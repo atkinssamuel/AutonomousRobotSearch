@@ -9,7 +9,7 @@ SpinStrategy::SpinStrategy()
     _finished = false;
 }
 
-geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
+geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed)
 {
     float minLaserDistance = laserData.getMinDistance();
 
@@ -29,7 +29,7 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
         _spin = true;
         _finished = false;
 
-        std::cout << "SpinStrategy Begins \n";
+        std::cout << "\nSpinStrategy Begins \n";
     }
     else if(_spin)
     {
@@ -52,7 +52,7 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
             _spin = false;
             _finished = true;
 
-            std::cout << "SpinStrategy Completed \n";
+            std::cout << "\nSpinStrategy Completed \n";
         }
     } 
     else if(_finished)

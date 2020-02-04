@@ -30,6 +30,7 @@ add_executable(
 	src/LaserBumpAndRunStrategy.cpp
 	src/BumperData.cpp
 	src/LaserData.cpp
+	src/Master.cpp
 	src/OdomData.cpp
 	src/RandomWalkStrategy.cpp
 	src/Spiral.cpp

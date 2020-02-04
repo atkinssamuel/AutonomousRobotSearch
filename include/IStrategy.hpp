@@ -10,7 +10,7 @@
 class IStrategy
 {
 public:
-    virtual geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) = 0;
+    virtual geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed) = 0;
 };
 
 #endif

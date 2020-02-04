@@ -14,7 +14,7 @@ private:
 public:
     AtkinsTestStrategy();
 
-    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
+    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed) override;
 };
 
 #endif

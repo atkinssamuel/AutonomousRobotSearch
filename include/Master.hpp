@@ -1,18 +1,24 @@
-#ifndef SPIRAL_H
-#define SPIRAL_H
+#ifndef MASTER_H
+#define MASTER_H
 
 #include <chrono>
 #include <geometry_msgs/Twist.h>
 #include "IStrategy.hpp"
 
-class Spiral : public IStrategy
+class Master : public IStrategy
 {
 private:
-    bool _moving;
+    geometry_msgs::Twist vel;
+    IStrategy *strategy;
+    
+    bool _newSpinStrategy;
+
+    bool _spinStrategy;
+
+
 
 public:
-    Spiral();
-
+    Master();
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed) override;
 };
 
