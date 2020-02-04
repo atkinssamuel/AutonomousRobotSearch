@@ -11,15 +11,6 @@ SpinStrategy::SpinStrategy()
 
 geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
-    geometry_msgs::Twist vel;
-    float _finalAngle;
-
-    std::chrono::time_point<std::chrono::system_clock> _startTime;
-
-    uint64_t _angleThreshold;
-    uint64_t _secondsElapsed;
-    uint64_t _holdoutTime;
-
     float minLaserDistance = laserData.getMinDistance();
 
     if(_init)
@@ -31,12 +22,14 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
 
         _startTime = std::chrono::system_clock::now();
         _secondsElapsed = 0;
-        _holdoutTime = 2;
-        _angleThreshold = 0.5;
+        _holdoutTime = 5;
+        _angleThreshold = 0.1;
 
         _init = false;
         _spin = true;
         _finished = false;
+
+        std::cout << "SpinStrategy Begins \n";
     }
     else if(_spin)
     {
@@ -49,12 +42,17 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
         std::cout << "\n"; 
         std::cout << "Odom diff: " << abs(odomData.Yaw - _finalAngle);
         std::cout << "\n";
+        std::cout << "angleThreshold: " << _angleThreshold;
+        std::cout << "\n";
+        std::cout << "holdoutTime: " << _holdoutTime;
 
-        if (_secondsElapsed > _holdoutTime && abs(odomData.Yaw - _finalAngle) < _angleThreshold && 0)
+        if (_secondsElapsed > _holdoutTime && abs(odomData.Yaw - _finalAngle) < _angleThreshold)
         {
             _init = false;
             _spin = false;
             _finished = true;
+
+            std::cout << "SpinStrategy Completed \n";
         }
     } 
     else if(_finished)

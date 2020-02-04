@@ -10,6 +10,14 @@ class SpinStrategy : public IStrategy
 private:
     bool _init;
     bool _spin;
+    geometry_msgs::Twist vel;
+    float _finalAngle;
+
+    std::chrono::time_point<std::chrono::system_clock> _startTime;
+
+    double _angleThreshold;
+    double _secondsElapsed;
+    double _holdoutTime;
 
 public:
     SpinStrategy();
