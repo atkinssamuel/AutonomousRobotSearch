@@ -1,18 +1,18 @@
-#ifndef LASERBUMPANDRUNSTRATEGY_H
-#define LASERBUMPANDRUNSTRATEGY_H
+#ifndef DEMOSTRATEGY_H
+#define DEMOSTRATEGY_H
 
 #include <chrono>
 #include <geometry_msgs/Twist.h>
 #include "IStrategy.hpp"
 
-class LaserBumpAndRunStrategy : public IStrategy
+class DemoStrategy : public IStrategy
 {
 private:
     bool _movingForward;
     bool _turning;
 
 public:
-    LaserBumpAndRunStrategy();
+    DemoStrategy();
 
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed) override;
 };

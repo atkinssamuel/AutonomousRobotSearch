@@ -1,14 +1,14 @@
 #include <chrono>
 #include <kobuki_msgs/BumperEvent.h>
-#include "AtkinsTestStrategy.hpp"
+#include "DemoStrategy.hpp"
 
-AtkinsTestStrategy::AtkinsTestStrategy()
+DemoStrategy::DemoStrategy()
 {
     _turning = false;
     _movingForward = true;
 }
 
-geometry_msgs::Twist AtkinsTestStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed)
+geometry_msgs::Twist DemoStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed)
 {
     geometry_msgs::Twist vel;
 
