@@ -15,10 +15,11 @@
 #include "LaserData.hpp"
 
 #include "BumpAndRunStrategy.hpp"
-//#include "AtkinsTestStrategy.hpp"
+#include "AtkinsTestStrategy.hpp"
 #include "LaserBumpAndRunStrategy.hpp"
 #include "RandomWalkStrategy.hpp"
 #include "Spiral.hpp"
+#include "SpinStrategy.hpp"
 
 #define RAD2DEG(rad) ((rad)*180. / M_PI)
 #define DEG2RAD(deg) ((deg)*M_PI / 180.)
@@ -64,7 +65,7 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-    IStrategy *strategy = new RandomWalk();
+    IStrategy *strategy = new SpinStrategy();
 
     while (ros::ok() && secondsElapsed <= 480)
     {

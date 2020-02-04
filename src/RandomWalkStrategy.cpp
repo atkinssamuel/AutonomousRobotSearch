@@ -31,8 +31,6 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
 
         if (minLaserDistance > 0.5 && minLaserDistance < 100)
         {
-
-
             _movingForward = false;
             _turningRandom = true;
             _turning = false;
