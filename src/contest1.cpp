@@ -18,12 +18,9 @@
 #include "Master.hpp"
 #include "RandomWalkStrategy.hpp"
 #include "Spiral.hpp"
-<<<<<<< HEAD
 #include "WallFollowStrategy.hpp"
-=======
 #include "SpinStrategy.hpp"
 #include "SimulationDetector.hpp"
->>>>>>> f65c956cce85fdbe1a8608a4eb55dd3648e4ed99
 
 #define RAD2DEG(rad) ((rad)*180. / M_PI)
 #define DEG2RAD(deg) ((deg)*M_PI / 180.)

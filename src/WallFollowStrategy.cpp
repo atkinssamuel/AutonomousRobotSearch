@@ -19,6 +19,7 @@ WallFollow::WallFollow()
 
     angular = 0;
     linear = .2;
+    done = false;
 
 }
 
@@ -33,6 +34,10 @@ geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData
     vel.angular.z = angular;
 
     ROS_INFO("Min dist: %f", minLaserDistance);
+    
+    if(done) {
+        return vel;
+    }
     
     if (_findWall)
     {
@@ -73,7 +78,7 @@ geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData
             _followingWall = true;
             angular = 0;
             linear = 0.2;
-
+            done = true;
         }
 
         ROS_INFO("FRONT");
@@ -110,6 +115,7 @@ geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData
             if(_whichWall) {
                 angular = -0.4;
             }
+            done = true;
         }
 
         else if(distance < 0.6 || distance > 100) {

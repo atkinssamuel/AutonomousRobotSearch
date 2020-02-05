@@ -24,6 +24,7 @@ private:
 
 public:
     WallFollow();
+    bool done;
 
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };
