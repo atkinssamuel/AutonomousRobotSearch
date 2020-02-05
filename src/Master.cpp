@@ -1,45 +1,75 @@
 #include <chrono>
 #include <kobuki_msgs/BumperEvent.h>
 #include "Master.hpp"
-#include "SpinStrategy.hpp"
 #include "SwivelStrategy.hpp"
+#include "RandomWalkStrategy.hpp"
 
 Master::Master()
 {
     _startTime = std::chrono::system_clock::now();
-    _secondsElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _startTime).count();
+    _lastScanTime = std::chrono::system_clock::now();
+    _lastToggleTime = std::chrono::system_clock::now();
+    _timeSinceToggle = 0;
+    _timeSinceScan = 0;
 
-    _newSpinStrategy = false;
-    _newSwivelStrategy = true;
+    _newScan = true;
+    _newRandomWalk = false;
 
-    _spinStrategy = false;
-    _swivelStrategy = false;
 
+    _scan = false;
+    _randomWalk = false;
 }
 
 geometry_msgs::Twist Master::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
-    _secondsElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _startTime).count();
+    std::cout << "\n\n_newScan: " << _newScan;
+    std::cout << "\n_newRandomWalk: " << _newRandomWalk;
+    std::cout << "\n_scan: " << _scan;
+    std::cout << "\n_randomWalk: " << _randomWalk; 
 
-    if (_secondsElapsed % 15 == 0 && !_swivelStrategy)
-    {
-        _newSwivelStrategy = true;
-    }
+    _timeSinceScan = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _lastScanTime).count();
+    _timeSinceToggle = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _lastToggleTime).count();
 
-    if (_newSpinStrategy)
+    if (_newRandomWalk)
     {
-        std::cout << "Initializing SpinStrategy \n";
-        strategy = new SpinStrategy();
-        _newSpinStrategy = false;
-        _spinStrategy = true;
-    } else if(_newSwivelStrategy)
+        std::cout << "Initializing Random Walk \n";
+        strategy = new RandomWalk();
+        _newRandomWalk = false;
+        _randomWalk = true;
+    } else if (_newScan)
     {
-        std::cout << "Initializing SwivelStrategy \n";
+        std::cout << "Initializing Scan \n";
         strategy = new SwivelStrategy();
-        _newSwivelStrategy = false;
-        _swivelStrategy = true;
+        strategy->IsFinished = false;
+
+        _newScan = false;
+        _newRandomWalk = false;
+        _scan = true;
+        _randomWalk = false;
     }
-        
+
+    if (_timeSinceScan > 10 && !_newScan && !_scan)
+    {
+        _newScan = true;
+        _newRandomWalk = false;
+        _scan = false;
+        _randomWalk = false;
+    }
+
+    if (_scan)
+    {
+        _lastScanTime = std::chrono::system_clock::now();
+        if (strategy->IsFinished) 
+        {
+            _newScan = false;
+            _newRandomWalk = true;
+            _scan = false;
+            _randomWalk = false;
+        }
+    }
+
     vel = strategy->step(bumperData, laserData, odomData);
+
+        
     return vel;
 };

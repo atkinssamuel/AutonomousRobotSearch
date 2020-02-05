@@ -9,18 +9,20 @@ class Master : public IStrategy
 {
 private:
     geometry_msgs::Twist vel;
-    uint64_t _secondsElapsed;
     std::chrono::time_point<std::chrono::system_clock> _startTime;
+    std::chrono::time_point<std::chrono::system_clock> _lastScanTime;
+    std::chrono::time_point<std::chrono::system_clock> _lastToggleTime;
+
+    uint64_t _timeSinceScan;
+    uint64_t _timeSinceToggle;
 
     IStrategy *strategy;
     
-    bool _newSpinStrategy;
-    bool _newSwivelStrategy;
+    bool _newScan;
+    bool _newRandomWalk;
 
-    bool _spinStrategy;
-    bool _swivelStrategy;
-
-
+    bool _scan;
+    bool _randomWalk;
 
 public:
     Master();

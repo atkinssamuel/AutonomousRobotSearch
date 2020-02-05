@@ -24,7 +24,7 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
     vel.linear.x = linear;
     vel.angular.z = angular;
 
-    ROS_INFO("Min dist: %f", minLaserDistance);
+    //ROS_INFO("Min dist: %f", minLaserDistance);
     
     if (_turning)
     {

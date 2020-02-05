@@ -14,7 +14,6 @@ private:
     bool _left;
     bool _right;
     bool _straighten;
-    bool _finished;
 
     double _leftAngle;
     double _rightAngle;
@@ -23,8 +22,8 @@ private:
 
 public:
     SwivelStrategy();
-
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
+    bool IsFinished = false;
 };
 
 #endif

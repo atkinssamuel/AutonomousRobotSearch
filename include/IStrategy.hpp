@@ -11,6 +11,7 @@ class IStrategy
 {
 public:
     virtual geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) = 0;
+    bool IsFinished;
 };
 
 #endif
