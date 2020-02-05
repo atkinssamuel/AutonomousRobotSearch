@@ -14,12 +14,16 @@
 #include "BumperData.hpp"
 #include "LaserData.hpp"
 
-#include "BumpAndRunStrategy.hpp"
-//#include "AtkinsTestStrategy.hpp"
-#include "LaserBumpAndRunStrategy.hpp"
+#include "DemoStrategy.hpp"
+#include "Master.hpp"
 #include "RandomWalkStrategy.hpp"
 #include "Spiral.hpp"
+<<<<<<< HEAD
 #include "WallFollowStrategy.hpp"
+=======
+#include "SpinStrategy.hpp"
+#include "SimulationDetector.hpp"
+>>>>>>> f65c956cce85fdbe1a8608a4eb55dd3648e4ed99
 
 #define RAD2DEG(rad) ((rad)*180. / M_PI)
 #define DEG2RAD(deg) ((deg)*M_PI / 180.)
@@ -65,7 +69,11 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
+<<<<<<< HEAD
     IStrategy *strategy = new WallFollow();
+=======
+    IStrategy *strategy = new Master();
+>>>>>>> f65c956cce85fdbe1a8608a4eb55dd3648e4ed99
 
     while (ros::ok() && secondsElapsed <= 480)
     {

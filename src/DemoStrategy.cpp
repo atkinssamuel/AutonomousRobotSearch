@@ -1,28 +1,25 @@
 #include <chrono>
 #include <kobuki_msgs/BumperEvent.h>
-#include "BumpAndRunStrategy.hpp"
+#include "DemoStrategy.hpp"
 
-#define N_BUMPER (3)
-
-BumpAndRunStrategy::BumpAndRunStrategy()
+DemoStrategy::DemoStrategy()
 {
     _turning = false;
     _movingForward = true;
-
-    _turnTimeThreshold = 10; //seconds
 }
 
-geometry_msgs::Twist BumpAndRunStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
+geometry_msgs::Twist DemoStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     geometry_msgs::Twist vel;
+
+    float minLaserDistance = laserData.getMinDistance();
 
     if (_turning)
     {
         vel.linear.x = 0.0;
         vel.angular.z = 0.3;
 
-        std::chrono::time_point<std::chrono::system_clock> currTime = std::chrono::system_clock::now();
-        if (std::chrono::duration_cast<std::chrono::seconds>(currTime - _turnStartTime).count() > _turnTimeThreshold)
+        if (minLaserDistance > 1 && minLaserDistance < 100)
         {
             vel.linear.x = 0.0;
             vel.angular.z = 0.0;
@@ -36,12 +33,10 @@ geometry_msgs::Twist BumpAndRunStrategy::step(BumperData bumperData, LaserData l
         vel.linear.x = 0.1;
         vel.angular.z = 0.0;
 
-        if (bumperData.anyBumperPressed())
+        if (minLaserDistance < 0.5 || minLaserDistance > 100)
         {
             vel.linear.x = 0.0;
             vel.angular.z = 0.0;
-
-            _turnStartTime = std::chrono::system_clock::now();
 
             _movingForward = false;
             _turning = true;

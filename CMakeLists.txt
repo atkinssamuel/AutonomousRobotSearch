@@ -21,6 +21,20 @@ catkin_package()
 include_directories(include ${OpenCV_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 # add the publisher example
-add_executable(contest1 src/contest1.cpp src/AtkinsTestStrategy.cpp src/BumpAndRunStrategy.cpp src/LaserBumpAndRunStrategy.cpp src/BumperData.cpp src/LaserData.cpp src/OdomData.cpp src/RandomWalkStrategy.cpp src/Spiral.cpp src/WallFollowStrategy.cpp)
+add_executable(
+	contest1
+	src/contest1.cpp
+	src/DemoStrategy.cpp
+	src/SpinStrategy.cpp
+	src/BumperData.cpp
+	src/LaserData.cpp
+	src/Master.cpp
+	src/OdomData.cpp
+	src/RandomWalkStrategy.cpp
+	src/Spiral.cpp
+	src/SimulationDetector.cpp
+	src/SwivelStrategy.cpp
+    src/WallFollowStrategy.cpp
+)
 target_link_libraries(contest1 ${catkin_LIBRARIES} ${OpenCV_LIB})
 
