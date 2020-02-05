@@ -87,8 +87,8 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
             float rightDist = laserData.getRightDistance();
             float leftDist = laserData.getLeftDistance();
             linear = 0.0;
-            angular = -0.4;
-            if(leftDist < rightDist) angular = 0.4;
+            angular = 0.4;
+            if(leftDist < rightDist) angular = -0.4;
 
             _movingForward = false;
             _turning = true;
