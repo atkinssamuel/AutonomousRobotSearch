@@ -9,7 +9,7 @@ Spiral::Spiral()
     _moving = true;
 }
 
-geometry_msgs::Twist Spiral::step(BumperData bumperData, LaserData laserData, OdomData OdomData,uint64_t secondsElapsed)
+geometry_msgs::Twist Spiral::step(BumperData bumperData, LaserData laserData, OdomData OdomData)
 {
     geometry_msgs::Twist vel;
 

@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     {
         ros::spinOnce();
 
-        vel = strategy->step(bumperData, laserData, odomData, secondsElapsed);
+        vel = strategy->step(bumperData, laserData, odomData);
 
         vel_pub.publish(vel);
 

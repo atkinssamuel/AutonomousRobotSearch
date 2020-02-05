@@ -14,7 +14,7 @@ private:
 public:
     DemoStrategy();
 
-    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData, uint64_t secondsElapsed) override;
+    geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };
 
 #endif
