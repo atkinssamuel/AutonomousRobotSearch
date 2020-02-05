@@ -31,9 +31,9 @@ float LaserData::getMinDistance()
 float LaserData::getLeftDistance() 
 {
     float leftDistance = 0;
-    int leftLasers = 100;
+    int leftLasers = 539;
     int leftUsed = 0;
-    for (int i = 0; i < leftLasers; i++) {
+    for (int i = leftLasers; i < NUM_LASERS; i++) {
         if(_laserArray[i] < 100)  {
             leftDistance += _laserArray[i];
             leftUsed++;
@@ -46,9 +46,9 @@ float LaserData::getLeftDistance()
 float LaserData::getRightDistance() 
 {
     float rightDistance = 0;
-    int rightLasers = 539;
+    int rightLasers = 100;
     int rightUsed = 0;
-    for (int i = rightLasers; i < NUM_LASERS; i++) {
+    for (int i = 0; i < rightLasers; i++) {
         if(_laserArray[i] < 100)  {
             rightDistance += _laserArray[i];
             rightUsed++;

@@ -34,6 +34,7 @@ add_executable(
 	src/Spiral.cpp
 	src/SimulationDetector.cpp
 	src/SwivelStrategy.cpp
+    src/WallFollowStrategy.cpp
 )
 target_link_libraries(contest1 ${catkin_LIBRARIES} ${OpenCV_LIB})
 

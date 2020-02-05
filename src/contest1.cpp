@@ -18,6 +18,7 @@
 #include "Master.hpp"
 #include "RandomWalkStrategy.hpp"
 #include "Spiral.hpp"
+#include "WallFollowStrategy.hpp"
 #include "SpinStrategy.hpp"
 #include "SimulationDetector.hpp"
 
@@ -65,7 +66,7 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-    IStrategy *strategy = new Master();
+    IStrategy *strategy = new WallFollow();
 
     while (ros::ok() && secondsElapsed <= 480)
     {
