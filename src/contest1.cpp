@@ -66,11 +66,7 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-<<<<<<< HEAD
     IStrategy *strategy = new WallFollow();
-=======
-    IStrategy *strategy = new Master();
->>>>>>> f65c956cce85fdbe1a8608a4eb55dd3648e4ed99
 
     while (ros::ok() && secondsElapsed <= 480)
     {
