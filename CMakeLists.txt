@@ -24,17 +24,16 @@ include_directories(include ${OpenCV_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 add_executable(
 	contest1
 	src/contest1.cpp
-	src/DemoStrategy.cpp
-	src/SpinStrategy.cpp
-	src/BumperData.cpp
-	src/LaserData.cpp
-	src/Master.cpp
-	src/OdomData.cpp
-	src/RandomWalkStrategy.cpp
-	src/Spiral.cpp
-	src/SimulationDetector.cpp
-	src/SwivelStrategy.cpp
-    src/WallFollowStrategy.cpp
+	src/containers/BumperData.cpp
+	src/containers/LaserData.cpp
+	src/containers/OdomData.cpp
+	src/strategies/DemoStrategy.cpp
+	src/strategies/SpinStrategy.cpp
+	src/strategies/MasterStrategy.cpp
+	src/strategies/RandomWalkStrategy.cpp
+	src/strategies/SpiralStrategy.cpp
+	src/strategies/SwivelStrategy.cpp
+	src/strategies/WallFollowStrategy.cpp
 )
 target_link_libraries(contest1 ${catkin_LIBRARIES} ${OpenCV_LIB})
 

@@ -31,12 +31,13 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
         _right = false;
         _straighten = false;
         IsFinished = false;
-    } else if (_left)
+    }
+    else if (_left)
     {
         vel.linear.x = 0.0;
         vel.angular.z = 0.1;
-        
-        if(abs(odomData.Yaw - _leftAngle) < _angleThreshold)
+
+        if (abs(odomData.Yaw - _leftAngle) < _angleThreshold)
         {
             _init = false;
             _left = false;
@@ -44,12 +45,13 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
             _straighten = false;
             IsFinished = false;
         }
-    } else if (_right)
+    }
+    else if (_right)
     {
         vel.linear.x = 0.0;
         vel.angular.z = -0.1;
 
-        if(abs(odomData.Yaw - _rightAngle) < _angleThreshold)
+        if (abs(odomData.Yaw - _rightAngle) < _angleThreshold)
         {
             _init = false;
             _left = false;
@@ -57,12 +59,13 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
             _straighten = true;
             IsFinished = false;
         }
-    } else if (_straighten)
+    }
+    else if (_straighten)
     {
         vel.linear.x = 0.0;
         vel.angular.z = 0.1;
 
-        if(abs(odomData.Yaw - _straightenAngle) < _angleThreshold)
+        if (abs(odomData.Yaw - _straightenAngle) < _angleThreshold)
         {
             vel.linear.x = 0.0;
             vel.angular.z = 0.0;
@@ -72,7 +75,6 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
             _straighten = false;
             IsFinished = true;
         }
-    
     }
     return vel;
 };

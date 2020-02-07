@@ -1,11 +1,11 @@
-#ifndef RANDOMWALK_H
-#define RANDOMWALK_H
+#ifndef RANDOMWALKSTRATEGY_H
+#define RANDOMWALKSTRATEGY_H
 
 #include <chrono>
 #include <geometry_msgs/Twist.h>
 #include "IStrategy.hpp"
 
-class RandomWalk : public IStrategy
+class RandomWalkStrategy : public IStrategy
 {
 private:
     uint64_t _turnTimeThreshold;       //seconds
@@ -21,7 +21,7 @@ private:
     float linear;
 
 public:
-    RandomWalk();
+    RandomWalkStrategy();
 
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };

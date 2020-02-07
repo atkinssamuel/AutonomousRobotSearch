@@ -2,14 +2,14 @@
 #include <ros/console.h>
 #include "ros/ros.h"
 #include <kobuki_msgs/BumperEvent.h>
-#include "Spiral.hpp"
+#include "SpiralStrategy.hpp"
 
-Spiral::Spiral()
+SpiralStrategy::SpiralStrategy()
 {
     _moving = true;
 }
 
-geometry_msgs::Twist Spiral::step(BumperData bumperData, LaserData laserData, OdomData OdomData)
+geometry_msgs::Twist SpiralStrategy::step(BumperData bumperData, LaserData laserData, OdomData OdomData)
 {
     geometry_msgs::Twist vel;
 

@@ -13,7 +13,7 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
 {
     float minLaserDistance = laserData.getMinDistance();
 
-    if(_init)
+    if (_init)
     {
         vel.linear.x = 0.0;
         vel.angular.z = 0.0;
@@ -31,7 +31,7 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
 
         std::cout << "\nSpinStrategy Begins \n";
     }
-    else if(_spin)
+    else if (_spin)
     {
         vel.linear.x = 0.0;
         vel.angular.z = 0.3;
@@ -39,7 +39,7 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
         _secondsElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _startTime).count();
 
         std::cout << "Seconds elapsed: " << _secondsElapsed;
-        std::cout << "\n"; 
+        std::cout << "\n";
         std::cout << "Odom diff: " << abs(odomData.Yaw - _finalAngle);
         std::cout << "\n";
         std::cout << "angleThreshold: " << _angleThreshold;
@@ -54,8 +54,8 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
 
             std::cout << "\nSpinStrategy Completed \n";
         }
-    } 
-    else if(_finished)
+    }
+    else if (_finished)
     {
         vel.linear.x = 0.0;
         vel.angular.z = 0.0;

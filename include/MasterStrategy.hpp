@@ -1,11 +1,11 @@
-#ifndef MASTER_H
-#define MASTER_H
+#ifndef MASTERSTRATEGY_H
+#define MASTERSTRATEGY_H
 
 #include <chrono>
 #include <geometry_msgs/Twist.h>
 #include "IStrategy.hpp"
 
-class Master : public IStrategy
+class MasterStrategy : public IStrategy
 {
 private:
     geometry_msgs::Twist vel;
@@ -17,7 +17,7 @@ private:
     uint64_t _timeSinceToggle;
 
     IStrategy *strategy;
-    
+
     bool _newScan;
     bool _newRandomWalk;
 
@@ -25,7 +25,7 @@ private:
     bool _randomWalk;
 
 public:
-    Master();
+    MasterStrategy();
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };
 

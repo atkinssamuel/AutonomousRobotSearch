@@ -1,10 +1,10 @@
 #include <chrono>
 #include <kobuki_msgs/BumperEvent.h>
-#include "Master.hpp"
+#include "MasterStrategy.hpp"
 #include "SwivelStrategy.hpp"
 #include "RandomWalkStrategy.hpp"
 
-Master::Master()
+MasterStrategy::MasterStrategy()
 {
     _startTime = std::chrono::system_clock::now();
     _lastScanTime = std::chrono::system_clock::now();
@@ -15,17 +15,16 @@ Master::Master()
     _newScan = true;
     _newRandomWalk = false;
 
-
     _scan = false;
     _randomWalk = false;
 }
 
-geometry_msgs::Twist Master::step(BumperData bumperData, LaserData laserData, OdomData odomData)
+geometry_msgs::Twist MasterStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     std::cout << "\n\n_newScan: " << _newScan;
     std::cout << "\n_newRandomWalk: " << _newRandomWalk;
     std::cout << "\n_scan: " << _scan;
-    std::cout << "\n_randomWalk: " << _randomWalk; 
+    std::cout << "\n_randomWalk: " << _randomWalk;
 
     _timeSinceScan = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _lastScanTime).count();
     _timeSinceToggle = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _lastToggleTime).count();
@@ -33,10 +32,11 @@ geometry_msgs::Twist Master::step(BumperData bumperData, LaserData laserData, Od
     if (_newRandomWalk)
     {
         std::cout << "Initializing Random Walk \n";
-        strategy = new RandomWalk();
+        strategy = new RandomWalkStrategy();
         _newRandomWalk = false;
         _randomWalk = true;
-    } else if (_newScan)
+    }
+    else if (_newScan)
     {
         std::cout << "Initializing Scan \n";
         strategy = new SwivelStrategy();
@@ -59,7 +59,7 @@ geometry_msgs::Twist Master::step(BumperData bumperData, LaserData laserData, Od
     if (_scan)
     {
         _lastScanTime = std::chrono::system_clock::now();
-        if (strategy->IsFinished) 
+        if (strategy->IsFinished)
         {
             _newScan = false;
             _newRandomWalk = true;
@@ -70,6 +70,5 @@ geometry_msgs::Twist Master::step(BumperData bumperData, LaserData laserData, Od
 
     vel = strategy->step(bumperData, laserData, odomData);
 
-        
     return vel;
 };

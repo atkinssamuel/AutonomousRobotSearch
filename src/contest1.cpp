@@ -13,11 +13,12 @@
 
 #include "BumperData.hpp"
 #include "LaserData.hpp"
+#include "OdomData.hpp"
 
 #include "DemoStrategy.hpp"
-#include "Master.hpp"
+#include "MasterStrategy.hpp"
 #include "RandomWalkStrategy.hpp"
-#include "Spiral.hpp"
+#include "SpiralStrategy.hpp"
 #include "WallFollowStrategy.hpp"
 #include "SpinStrategy.hpp"
 #include "SimulationDetector.hpp"
@@ -66,7 +67,7 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-    IStrategy *strategy = new WallFollow();
+    IStrategy *strategy = new WallFollowStrategy();
 
     while (ros::ok() && secondsElapsed <= 480)
     {

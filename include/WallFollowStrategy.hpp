@@ -1,14 +1,13 @@
-#ifndef WALLFOLLOW_H
-#define WALLFOLLOW_H
+#ifndef WALLFOLLOWSTRATEGY_H
+#define WALLFOLLOWSTRATEGY_H
 
 #include <chrono>
 #include <geometry_msgs/Twist.h>
 #include "IStrategy.hpp"
 
-class WallFollow : public IStrategy
+class WallFollowStrategy : public IStrategy
 {
 private:
-
     bool _front;
     bool _notFront;
     bool _followingWall;
@@ -23,11 +22,10 @@ private:
     float linear;
 
 public:
-    WallFollow();
+    WallFollowStrategy();
     bool done;
 
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };
 
 #endif
-

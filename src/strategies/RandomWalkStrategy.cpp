@@ -4,7 +4,7 @@
 #include <kobuki_msgs/BumperEvent.h>
 #include "RandomWalkStrategy.hpp"
 
-RandomWalk::RandomWalk()
+RandomWalkStrategy::RandomWalkStrategy()
 {
     _turning = false;
     _movingForward = true;
@@ -17,7 +17,7 @@ RandomWalk::RandomWalk()
     linear = 0;
 }
 
-geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData, OdomData odomData)
+geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     geometry_msgs::Twist vel;
     float minLaserDistance = laserData.getMinDistance();
@@ -25,7 +25,7 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
     vel.angular.z = angular;
 
     //ROS_INFO("Min dist: %f", minLaserDistance);
-    
+
     if (_turning)
     {
 
@@ -50,22 +50,27 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
         // If we have been turning for longer than our threshold, go into the moving forward loop
         //
 
-        if (minLaserDistance < 0.5 || minLaserDistance > 100) {
+        if (minLaserDistance < 0.5 || minLaserDistance > 100)
+        {
             _turningRandom = false;
             _turning = true;
         }
-        if (std::chrono::duration_cast<std::chrono::seconds>(currTime - _randomTurnStartTime).count() > _randomTurnTimeThreshold) {
+        if (std::chrono::duration_cast<std::chrono::seconds>(currTime - _randomTurnStartTime).count() > _randomTurnTimeThreshold)
+        {
             angular = 0.0;
             linear = 0.2;
 
             int gauss = rand() % 100;
 
-            if(gauss < 100) {
+            if (gauss < 100)
+            {
                 linear = 0.2;
                 angular = -0.06;
-                if(laserData.getRightDistance() > laserData.getLeftDistance()) angular = 0.05;
+                if (laserData.getRightDistance() > laserData.getLeftDistance())
+                    angular = 0.05;
             }
-            else{
+            else
+            {
                 linear = 0.2;
                 angular = 0;
             }
@@ -86,7 +91,8 @@ geometry_msgs::Twist RandomWalk::step(BumperData bumperData, LaserData laserData
             float leftDist = laserData.getLeftDistance();
             linear = 0.0;
             angular = 0.4;
-            if(leftDist < rightDist) angular = -0.4;
+            if (leftDist < rightDist)
+                angular = -0.4;
 
             _movingForward = false;
             _turning = true;

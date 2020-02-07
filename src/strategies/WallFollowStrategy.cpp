@@ -1,10 +1,10 @@
-#include <chrono> 
+#include <chrono>
 #include <ros/console.h>
 #include "ros/ros.h"
 #include <kobuki_msgs/BumperEvent.h>
 #include "WallFollowStrategy.hpp"
 
-WallFollow::WallFollow()
+WallFollowStrategy::WallFollowStrategy()
 {
     _front = false;
     _notFront = false;
@@ -12,7 +12,7 @@ WallFollow::WallFollow()
     _findWall = true;
     // 0 is left wall, 1 is right wall
     _whichWall = 0;
-    
+
     _upperBound = 0.85;
     _upperUpperBound = 1.5;
     _lowerBound = 0.6;
@@ -20,11 +20,9 @@ WallFollow::WallFollow()
     angular = 0;
     linear = .2;
     done = false;
-
 }
 
-
-geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData, OdomData odomData)
+geometry_msgs::Twist WallFollowStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     geometry_msgs::Twist vel;
     float minLaserDistance = laserData.getMinDistance();
@@ -34,16 +32,18 @@ geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData
     vel.angular.z = angular;
 
     ROS_INFO("Min dist: %f", minLaserDistance);
-    
-    if(done) {
+
+    if (done)
+    {
         return vel;
     }
-    
+
     if (_findWall)
     {
 
         float distance = leftLaserDistance;
-        if(_whichWall) {
+        if (_whichWall)
+        {
             distance = rightLaserDistance;
         }
         bool laserCondition = (distance < 0.5 || distance > 100);
@@ -52,7 +52,8 @@ geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData
             _whichWall = 1;
             angular = 0.3;
             linear = 0.0;
-            if(rightLaserDistance > leftLaserDistance) {
+            if (rightLaserDistance > leftLaserDistance)
+            {
                 _whichWall = 0;
                 angular = -0.3;
             }
@@ -65,15 +66,16 @@ geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData
     else if (_front)
     {
 
-
         float distance = leftLaserDistance;
-        if(_whichWall) {
+        if (_whichWall)
+        {
             distance = rightLaserDistance;
         }
         bool laserCondition2 = (distance > 0.6 && distance < 100);
         _front = true;
-        
-        if(minLaserDistance > 0.5 && minLaserDistance < 100 && laserCondition2) {
+
+        if (minLaserDistance > 0.5 && minLaserDistance < 100 && laserCondition2)
+        {
             _front = false;
             _followingWall = true;
             angular = 0;
@@ -82,27 +84,29 @@ geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData
         }
 
         ROS_INFO("FRONT");
-
     }
-    else if(_notFront) {
-
+    else if (_notFront)
+    {
     }
     else if (_followingWall)
     {
 
         angular = 0.0;
         linear = .2;
-        if(_whichWall) {
+        if (_whichWall)
+        {
             angular = 0;
         }
         float distance = leftLaserDistance;
-        if(_whichWall) {
+        if (_whichWall)
+        {
             distance = rightLaserDistance;
         }
 
-        if(distance > _upperBound && distance < 100) {
-       //     _followingWall = false;
-     //       _notFront = true;
+        if (distance > _upperBound && distance < 100)
+        {
+            //     _followingWall = false;
+            //       _notFront = true;
             //linear = 0.2;
             //angular = 0.0;
             //_followingWall = false;
@@ -112,34 +116,40 @@ geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData
             _followingWall = true;
             angular = 0.4;
             linear = 0.0;
-            if(_whichWall) {
+            if (_whichWall)
+            {
                 angular = -0.4;
             }
             done = true;
         }
 
-        else if(distance < 0.6 || distance > 100) {
+        else if (distance < 0.6 || distance > 100)
+        {
             _followingWall = true;
             angular = -0.4;
             linear = 0.1;
-            if(_whichWall) {
+            if (_whichWall)
+            {
                 angular = 0.4;
             }
         }
-        
-        if(minLaserDistance < 0.5 || minLaserDistance > 100) {
+
+        if (minLaserDistance < 0.5 || minLaserDistance > 100)
+        {
             _front = true;
             linear = 0;
             _followingWall = false;
             angular = -0.3;
-            if(_whichWall) {
+            if (_whichWall)
+            {
                 angular = 0.3;
             }
-
         }
 
-        if(minLaserDistance > 0.5 && minLaserDistance < 100) {
-            if(distance > _upperUpperBound && distance < 100) {
+        if (minLaserDistance > 0.5 && minLaserDistance < 100)
+        {
+            if (distance > _upperUpperBound && distance < 100)
+            {
                 linear = 0.2;
                 angular = 0.0;
                 _followingWall = false;
@@ -148,25 +158,23 @@ geometry_msgs::Twist WallFollow::step(BumperData bumperData, LaserData laserData
             }
         }
 
-
         //check if the weird corner thing happned
-       // if(leftLaserDistance < minLaserDistance && rightLaserDistance < minLaserDistance) {
-       //     _front = true;
-       //     linear = 0;
-       //     _followingWall = false;
-       //     angular = -0.3;
-       //     if(_whichWall) {
-       //         angular = 0.3;
-       //     }
+        // if(leftLaserDistance < minLaserDistance && rightLaserDistance < minLaserDistance) {
+        //     _front = true;
+        //     linear = 0;
+        //     _followingWall = false;
+        //     angular = -0.3;
+        //     if(_whichWall) {
+        //         angular = 0.3;
+        //     }
 
-       // }
+        // }
         ROS_INFO("FOLLOWING WALL");
         ROS_INFO("Distance: %f", distance);
         ROS_INFO("minRight: %f", rightLaserDistance);
         ROS_INFO("minLeft: %f", leftLaserDistance);
         ROS_INFO("angular: %f", angular);
         ROS_INFO("which wall: %d", _whichWall);
-        ROS_INFO("");
     }
 
     return vel;
