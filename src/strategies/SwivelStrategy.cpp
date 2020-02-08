@@ -1,4 +1,6 @@
 #include <chrono>
+#include <ros/console.h>
+#include "ros/ros.h"
 #include <kobuki_msgs/BumperEvent.h>
 #include "SwivelStrategy.hpp"
 
@@ -17,7 +19,11 @@ SwivelStrategy::SwivelStrategy()
 
 geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
-    if (_init)
+    if(IsFinished) {
+        this->IsFinished = true;
+        ROS_INFO("get out %d", IsFinished);
+    }
+    else if (_init)
     {
         vel.linear.x = 0.0;
         vel.angular.z = 0.0;
@@ -76,5 +82,7 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
             IsFinished = true;
         }
     }
+
     return vel;
 };
+

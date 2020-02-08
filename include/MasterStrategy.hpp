@@ -12,6 +12,7 @@ private:
     std::chrono::time_point<std::chrono::system_clock> _startTime;
     std::chrono::time_point<std::chrono::system_clock> _lastScanTime;
     std::chrono::time_point<std::chrono::system_clock> _lastToggleTime;
+    std::chrono::time_point<std::chrono::system_clock> _scanStartTime;
 
     uint64_t _timeSinceScan;
     uint64_t _timeSinceToggle;

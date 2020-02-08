@@ -23,7 +23,7 @@ private:
 public:
     SwivelStrategy();
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
-    bool IsFinished = false;
+    bool IsFinished;
 };
 
 #endif

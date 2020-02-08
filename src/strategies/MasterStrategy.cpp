@@ -1,6 +1,8 @@
 #include <chrono>
 #include <kobuki_msgs/BumperEvent.h>
 #include "MasterStrategy.hpp"
+#include <ros/console.h>
+#include "ros/ros.h"
 #include "SwivelStrategy.hpp"
 #include "RandomWalkStrategy.hpp"
 
@@ -9,11 +11,12 @@ MasterStrategy::MasterStrategy()
     _startTime = std::chrono::system_clock::now();
     _lastScanTime = std::chrono::system_clock::now();
     _lastToggleTime = std::chrono::system_clock::now();
+    _scanStartTime = std::chrono::system_clock::now();
     _timeSinceToggle = 0;
     _timeSinceScan = 0;
 
-    _newScan = true;
-    _newRandomWalk = false;
+    _newScan = false;
+    _newRandomWalk = true;
 
     _scan = false;
     _randomWalk = false;
@@ -21,10 +24,10 @@ MasterStrategy::MasterStrategy()
 
 geometry_msgs::Twist MasterStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
-    std::cout << "\n\n_newScan: " << _newScan;
-    std::cout << "\n_newRandomWalk: " << _newRandomWalk;
-    std::cout << "\n_scan: " << _scan;
-    std::cout << "\n_randomWalk: " << _randomWalk;
+ //   std::cout << "\n\n_newScan: " << _newScan;
+ //   std::cout << "\n_newRandomWalk: " << _newRandomWalk;
+ //   std::cout << "\n_scan: " << _scan;
+ //   std::cout << "\n_randomWalk: " << _randomWalk;
 
     _timeSinceScan = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _lastScanTime).count();
     _timeSinceToggle = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _lastToggleTime).count();
@@ -46,26 +49,31 @@ geometry_msgs::Twist MasterStrategy::step(BumperData bumperData, LaserData laser
         _newRandomWalk = false;
         _scan = true;
         _randomWalk = false;
+        _scanStartTime = std::chrono::system_clock::now();
     }
 
     if (_timeSinceScan > 10 && !_newScan && !_scan)
     {
-        _newScan = true;
+        _newScan = false;
         _newRandomWalk = false;
         _scan = false;
-        _randomWalk = false;
+        _randomWalk = true;
     }
 
     if (_scan)
     {
         _lastScanTime = std::chrono::system_clock::now();
-        if (strategy->IsFinished)
+        if (strategy->IsFinished || (std::chrono::system_clock::now() - _scanStartTime).count() > 5)
         {
             _newScan = false;
             _newRandomWalk = true;
             _scan = false;
             _randomWalk = false;
         }
+    }
+
+    if (_randomWalk) {
+
     }
 
     vel = strategy->step(bumperData, laserData, odomData);
