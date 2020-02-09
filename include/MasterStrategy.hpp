@@ -20,11 +20,16 @@ private:
 
     IStrategy *strategy;
 
+    bool _initFirstSpin;
     bool _newScan;
     bool _newRandomWalk;
 
+    bool _firstSpin;
     bool _scan;
     bool _randomWalk;
+
+
+
     bool IsFinished;
 
 public:

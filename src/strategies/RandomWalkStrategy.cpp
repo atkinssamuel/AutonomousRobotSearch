@@ -14,6 +14,11 @@ RandomWalkStrategy::RandomWalkStrategy()
     _randomTurnTimeThreshold = 0; //seconds
     IsFinished = false;
 
+    _linearVelocity = 0.25;
+
+    // _wallThreshold = 0.6; *** REAL WORLD OPTIMAL ***
+    _wallThreshold = 0.5;
+
     angular = 0;
     linear = 0;
 }
@@ -69,20 +74,20 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
         if (std::chrono::duration_cast<std::chrono::seconds>(currTime - _randomTurnStartTime).count() > _randomTurnTimeThreshold)
         {
             angular = 0.0;
-            linear = 0.1;
+            linear = _linearVelocity;
 
             int gauss = rand() % 100;
 
             if (gauss < 100)
             {
-                linear = 0.1;
+                linear = _linearVelocity;
                 angular = -0.06;
                 if (laserData.getRightDistance() > laserData.getLeftDistance())
                     angular = 0.05;
             }
             else
             {
-                linear = 0.1;
+                linear = _linearVelocity;
                 angular = 0;
             }
 
@@ -94,10 +99,10 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
     else if (_movingForward)
     {
         angular = 0.0;
-        linear = 0.1;
+        linear = _linearVelocity;
 
-        bool rightTooClose = (laserData.getLeftDistance() < 0.6);
-        bool leftTooClose = (laserData.getRightDistance() < 0.6);
+        bool rightTooClose = (laserData.getLeftDistance() < _wallThreshold);
+        bool leftTooClose = (laserData.getRightDistance() < _wallThreshold);
 
         if (minLaserDistance < 0.5 || minLaserDistance > 100 || rightTooClose || leftTooClose)
         {
@@ -115,15 +120,15 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
         }
     }
 
-    // if(linear > 0) {
-    //     bool rightTooClose = (laserData.getLeftDistance() < 0.75);
-    //     bool leftTooClose = (laserData.getRightDistance() < 0.75);
-    //     if (minLaserDistance < 0.75 || minLaserDistance > 100|| rightTooClose || leftTooClose)
-    //     {
-    //         linear = 0.1;
-    //     }
+    if(linear > 0) {
+        bool rightTooClose = (laserData.getLeftDistance() < 0.75);
+        bool leftTooClose = (laserData.getRightDistance() < 0.75);
+        if (minLaserDistance < 0.75 || minLaserDistance > 100 || rightTooClose || leftTooClose)
+        {
+            linear = 0.1;
+        }
 
-    // }
+    }
 
 
     return vel;

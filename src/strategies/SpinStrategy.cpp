@@ -6,68 +6,53 @@ SpinStrategy::SpinStrategy()
 {
     _init = true;
     _spin = false;
-    _finished = false;
+    IsFinished = false;
+
+
+    _startTime = std::chrono::system_clock::now();
+    _secondsElapsed = 0;
+    _angleThreshold = 0.1;
+    _holdoutTime = 2;
+    _turningVelocity = 0.6;
+
 }
 
 bool SpinStrategy::getIsFinished()
 {
-    return false;
+    return IsFinished;
 }
 
 geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
+    std::cout << "\n\nSpinStrategy";
+    std::cout << "\n_spin: " << _spin;
+
     float minLaserDistance = laserData.getMinDistance();
+    _secondsElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _startTime).count();
 
     if (_init)
     {
-        vel.linear.x = 0.0;
-        vel.angular.z = 0.0;
-
         _finalAngle = odomData.Yaw;
-
-        _startTime = std::chrono::system_clock::now();
-        _secondsElapsed = 0;
-        _holdoutTime = 5;
-        _angleThreshold = 0.1;
 
         _init = false;
         _spin = true;
-        _finished = false;
-
-        std::cout << "\nSpinStrategy Begins \n";
+        IsFinished = false;
     }
     else if (_spin)
     {
         vel.linear.x = 0.0;
-        vel.angular.z = 0.3;
+        vel.angular.z = _turningVelocity;
 
-        _secondsElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _startTime).count();
 
-        std::cout << "Seconds elapsed: " << _secondsElapsed;
-        std::cout << "\n";
-        std::cout << "Odom diff: " << abs(odomData.Yaw - _finalAngle);
-        std::cout << "\n";
-        std::cout << "angleThreshold: " << _angleThreshold;
-        std::cout << "\n";
-        std::cout << "holdoutTime: " << _holdoutTime;
-
-        if (_secondsElapsed > _holdoutTime && abs(odomData.Yaw - _finalAngle) < _angleThreshold)
+        if ((abs(odomData.Yaw - _finalAngle) < _angleThreshold && _secondsElapsed > _holdoutTime)|| _secondsElapsed > 15)
         {
             _init = false;
             _spin = false;
-            _finished = true;
+            IsFinished = true;
 
-            std::cout << "\nSpinStrategy Completed \n";
+            vel.linear.x = 0.0;
+            vel.angular.z = 0.0;
         }
-    }
-    else if (_finished)
-    {
-        vel.linear.x = 0.0;
-        vel.angular.z = 0.0;
-
-        _init = false;
-        _spin = false;
-        _finished = true;
     }
 
     return vel;

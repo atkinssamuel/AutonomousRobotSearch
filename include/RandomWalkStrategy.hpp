@@ -8,7 +8,7 @@
 class RandomWalkStrategy : public IStrategy
 {
 private:
-    uint64_t _turnTimeThreshold;       //seconds
+    uint64_t _turnTimeThreshold; //seconds
     float _randomTurnTimeThreshold; //seconds
     std::chrono::time_point<std::chrono::system_clock> _turnStartTime;
     std::chrono::time_point<std::chrono::system_clock> _randomTurnStartTime;
@@ -16,6 +16,9 @@ private:
     bool _movingForward;
     bool _turning;
     bool _turningRandom;
+
+    double _linearVelocity;
+    double _wallThreshold;
 
     float angular;
     float linear;

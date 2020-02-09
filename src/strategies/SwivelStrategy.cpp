@@ -15,10 +15,10 @@ SwivelStrategy::SwivelStrategy()
     _straighten = false;
     IsFinished = false;
 
-    _shortTurnThreshold = 1;
+    _shortTurnThreshold = 2;
     _longTurnThreshold = _shortTurnThreshold * 2;
 
-    _turnVelocity = 0.4;
+    _turnVelocity = 0.6;
 
     _startTime = std::chrono::system_clock::now();
     _turnTime = std::chrono::system_clock::now();

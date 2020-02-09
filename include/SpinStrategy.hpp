@@ -18,7 +18,8 @@ private:
     double _angleThreshold;
     double _secondsElapsed;
     double _holdoutTime;
-    bool _finished;
+    double _turningVelocity;
+    bool IsFinished;
 
 public:
     SpinStrategy();
