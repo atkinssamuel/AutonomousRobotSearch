@@ -14,10 +14,17 @@ SwivelStrategy::SwivelStrategy()
     _right = false;
     _straighten = false;
     IsFinished = false;
-    _angleThreshold = DEG2RAD(10);
-    _startTime = std::chrono::system_clock::now();
-    _timeElapsed = 0;
 
+    _shortTurnThreshold = 1;
+    _longTurnThreshold = _shortTurnThreshold * 2;
+
+    _turnVelocity = 0.4;
+
+    _startTime = std::chrono::system_clock::now();
+    _turnTime = std::chrono::system_clock::now();
+    _timeElapsed = 0;
+    _turnTimeElapsed = 0;
+    _failureTime = 20;
 }
 
 bool SwivelStrategy::getIsFinished()
@@ -33,13 +40,14 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
     std::cout << "\n_right: " << _right;
     std::cout << "\n_straighten: " << _straighten;
     std::cout << "\n_timeElapsed: " << _timeElapsed;
-
-
+    std::cout << "\n_turnTimeElapsed: " << _turnTimeElapsed;
+    
     _timeElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _startTime).count();
+    _turnTimeElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _turnTime).count();
 
-    if (_timeElapsed > 15)
+    if (_timeElapsed > _failureTime)
     {
-         _init = false;
+        _init = false;
         _left = false;
         _right = false;
         _straighten = false;
@@ -51,50 +59,50 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
         vel.linear.x = 0.0;
         vel.angular.z = 0.0;
 
-        _leftAngle = odomData.Yaw + DEG2RAD(45);
-        _rightAngle = odomData.Yaw - DEG2RAD(45);
-        _straightenAngle = odomData.Yaw + DEG2RAD(5);
-
         _init = false;
         _left = true;
         _right = false;
         _straighten = false;
         IsFinished = false;
+        _turnTime = std::chrono::system_clock::now();
     }
     else if (_left)
     {
         vel.linear.x = 0.0;
-        vel.angular.z = 0.3;
+        vel.angular.z = _turnVelocity;
 
-        if (abs(odomData.Yaw - _leftAngle) < _angleThreshold)
+        
+        if (_turnTimeElapsed > _shortTurnThreshold)
         {
             _init = false;
             _left = false;
             _right = true;
             _straighten = false;
             IsFinished = false;
+            _turnTime = std::chrono::system_clock::now();
         }
     }
     else if (_right)
     {
         vel.linear.x = 0.0;
-        vel.angular.z = -0.3;
+        vel.angular.z = -_turnVelocity;
 
-        if (abs(odomData.Yaw - _rightAngle) < _angleThreshold)
+        if (_turnTimeElapsed > _longTurnThreshold)
         {
             _init = false;
             _left = false;
             _right = false;
             _straighten = true;
             IsFinished = false;
+            _turnTime = std::chrono::system_clock::now();
         }
     }
     else if (_straighten)
     {
         vel.linear.x = 0.0;
-        vel.angular.z = 0.3;
+        vel.angular.z = _turnVelocity;
 
-        if (abs(odomData.Yaw - _straightenAngle) < _angleThreshold)
+        if (_turnTimeElapsed > _shortTurnThreshold)
         {
             vel.linear.x = 0.0;
             vel.angular.z = 0.0;

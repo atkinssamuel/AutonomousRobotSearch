@@ -36,7 +36,7 @@ geometry_msgs::Twist MasterStrategy::step(BumperData bumperData, LaserData laser
     std::cout << "\n_newRandomWalk: " << _newRandomWalk;
     std::cout << "\n_scan: " << _scan;
     std::cout << "\n_randomWalk: " << _randomWalk;
-    std::cout << "\n_timeSinceScan:" << _timeSinceScan;
+    std::cout << "\n_timeSinceScan: " << _timeSinceScan;
 
     _timeSinceScan = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _lastScanTime).count();
     _timeSinceToggle = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _lastToggleTime).count();

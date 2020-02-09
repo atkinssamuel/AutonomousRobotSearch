@@ -14,15 +14,18 @@ private:
     bool _left;
     bool _right;
     bool _straighten;
-
-    double _leftAngle;
-    double _rightAngle;
-    double _straightenAngle;
-    double _angleThreshold;
     bool IsFinished;
+
+    double _turnVelocity;
     
     std::chrono::time_point<std::chrono::system_clock> _startTime;
+    std::chrono::time_point<std::chrono::system_clock> _turnTime;
+
+    uint64_t _shortTurnThreshold;
+    uint64_t _longTurnThreshold;
+    uint64_t _turnTimeElapsed;
     uint64_t _timeElapsed;
+    uint64_t _failureTime;
 
 
 public:

@@ -15,6 +15,7 @@
 #include "LaserData.hpp"
 #include "OdomData.hpp"
 
+#include "DemoStrategy.hpp"
 #include "MasterStrategy.hpp"
 #include "RandomWalkStrategy.hpp"
 #include "SpiralStrategy.hpp"
@@ -66,7 +67,7 @@ int main(int argc, char **argv)
     start = std::chrono::system_clock::now();
     uint64_t secondsElapsed = 0;
 
-    IStrategy *strategy = new MasterStrategy();
+    IStrategy *strategy = new DemoStrategy();
 
     while (ros::ok() && secondsElapsed <= 480)
     {

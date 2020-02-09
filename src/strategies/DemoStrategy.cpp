@@ -1,47 +1,32 @@
 #include <chrono>
 #include <kobuki_msgs/BumperEvent.h>
 #include "DemoStrategy.hpp"
+#include "SwivelStrategy.hpp"
 
 DemoStrategy::DemoStrategy()
 {
-    _turning = false;
-    _movingForward = true;
+    _newSwivelStrategy = true;
+    _swivelStrategy = false;
+    IsFinished = false;
+}
+
+bool DemoStrategy::getIsFinished()
+{
+    return false;
 }
 
 geometry_msgs::Twist DemoStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     geometry_msgs::Twist vel;
-
-    float minLaserDistance = laserData.getMinDistance();
-
-    if (_turning)
+    if (_newSwivelStrategy)
     {
-        vel.linear.x = 0.0;
-        vel.angular.z = 0.3;
-
-        if (minLaserDistance > 1 && minLaserDistance < 100)
-        {
-            vel.linear.x = 0.0;
-            vel.angular.z = 0.0;
-
-            _movingForward = true;
-            _turning = false;
-        }
+        strategy = new SwivelStrategy();
+        _newSwivelStrategy = false;
+        _swivelStrategy = true;
     }
-    else if (_movingForward)
-    {
-        vel.linear.x = 0.1;
-        vel.angular.z = 0.0;
 
-        if (minLaserDistance < 0.5 || minLaserDistance > 100)
-        {
-            vel.linear.x = 0.0;
-            vel.angular.z = 0.0;
-
-            _movingForward = false;
-            _turning = true;
-        }
-    }
+    vel = strategy->step(bumperData, laserData, odomData);
+    
 
     return vel;
 };

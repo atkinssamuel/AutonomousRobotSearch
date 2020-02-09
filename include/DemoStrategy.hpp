@@ -8,12 +8,15 @@
 class DemoStrategy : public IStrategy
 {
 private:
-    bool _movingForward;
-    bool _turning;
+    bool _newSwivelStrategy;
+    bool _swivelStrategy;
+    bool IsFinished;
+    IStrategy *strategy;
+
 
 public:
     DemoStrategy();
-
+    bool getIsFinished() override;
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };
 
