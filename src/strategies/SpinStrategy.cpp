@@ -9,6 +9,11 @@ SpinStrategy::SpinStrategy()
     _finished = false;
 }
 
+bool SpinStrategy::getIsFinished()
+{
+    return false;
+}
+
 geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
     float minLaserDistance = laserData.getMinDistance();

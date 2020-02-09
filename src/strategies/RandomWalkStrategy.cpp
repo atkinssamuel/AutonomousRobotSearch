@@ -12,13 +12,24 @@ RandomWalkStrategy::RandomWalkStrategy()
 
     _turnTimeThreshold = 10;      //seconds
     _randomTurnTimeThreshold = 0; //seconds
+    IsFinished = false;
 
     angular = 0;
     linear = 0;
 }
 
+bool RandomWalkStrategy::getIsFinished()
+{
+    return RandomWalkStrategy::IsFinished;
+}
+
 geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
+    std::cout << "\n\nRandomWalkStrategy";
+    std::cout << "\n_turning: " << _turning;
+    std::cout << "\n_movingForward: " << _movingForward;
+    std::cout << "\n_turningRandom: " << _turningRandom;
+
     geometry_msgs::Twist vel;
     float minLaserDistance = laserData.getMinDistance();
     vel.linear.x = linear;
@@ -82,6 +93,9 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
     }
     else if (_movingForward)
     {
+        angular = 0.0;
+        linear = 0.25;
+
         bool rightTooClose = (laserData.getLeftDistance() < 0.6);
         bool leftTooClose = (laserData.getRightDistance() < 0.6);
 
@@ -92,7 +106,9 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
             linear = 0.0;
             angular = 0.4;
             if (leftDist < rightDist)
+            {
                 angular = -0.4;
+            }
 
             _movingForward = false;
             _turning = true;
@@ -108,6 +124,7 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
         }
 
     }
+
 
     return vel;
 };

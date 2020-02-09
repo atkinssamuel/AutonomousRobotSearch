@@ -9,9 +9,12 @@
 
 class IStrategy
 {
+private:
+    bool IsFinished;
+
 public:
     virtual geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) = 0;
-    bool IsFinished;
+    virtual bool getIsFinished() = 0;
 };
 
 #endif

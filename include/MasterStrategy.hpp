@@ -16,6 +16,7 @@ private:
 
     uint64_t _timeSinceScan;
     uint64_t _timeSinceToggle;
+    uint64_t _scanFrequency;
 
     IStrategy *strategy;
 
@@ -24,10 +25,12 @@ private:
 
     bool _scan;
     bool _randomWalk;
+    bool IsFinished;
 
 public:
     MasterStrategy();
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
+    bool getIsFinished();
 };
 
 #endif

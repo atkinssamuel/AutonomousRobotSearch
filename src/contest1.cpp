@@ -15,7 +15,6 @@
 #include "LaserData.hpp"
 #include "OdomData.hpp"
 
-#include "DemoStrategy.hpp"
 #include "MasterStrategy.hpp"
 #include "RandomWalkStrategy.hpp"
 #include "SpiralStrategy.hpp"

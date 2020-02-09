@@ -19,11 +19,12 @@ private:
 
     float angular;
     float linear;
-
+    bool IsFinished;
+    
 public:
     RandomWalkStrategy();
-
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
+    bool getIsFinished() override;
 };
 
 #endif

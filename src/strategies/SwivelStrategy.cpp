@@ -14,23 +14,46 @@ SwivelStrategy::SwivelStrategy()
     _right = false;
     _straighten = false;
     IsFinished = false;
-    _angleThreshold = 0.1;
+    _angleThreshold = DEG2RAD(10);
+    _startTime = std::chrono::system_clock::now();
+    _timeElapsed = 0;
+
+}
+
+bool SwivelStrategy::getIsFinished()
+{
+    return SwivelStrategy::IsFinished;
 }
 
 geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laserData, OdomData odomData)
 {
-    if(IsFinished) {
-        this->IsFinished = true;
-        ROS_INFO("get out %d", IsFinished);
+    std::cout << "\n\nSwivelStrategy";
+    std::cout << "\n_init: " << _init;
+    std::cout << "\n_left: " << _left;
+    std::cout << "\n_right: " << _right;
+    std::cout << "\n_straighten: " << _straighten;
+    std::cout << "\n_timeElapsed: " << _timeElapsed;
+
+
+    _timeElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _startTime).count();
+
+    if (_timeElapsed > 15)
+    {
+         _init = false;
+        _left = false;
+        _right = false;
+        _straighten = false;
+        IsFinished = true;
     }
-    else if (_init)
+
+    if (_init)
     {
         vel.linear.x = 0.0;
         vel.angular.z = 0.0;
 
         _leftAngle = odomData.Yaw + DEG2RAD(45);
         _rightAngle = odomData.Yaw - DEG2RAD(45);
-        _straightenAngle = odomData.Yaw;
+        _straightenAngle = odomData.Yaw + DEG2RAD(5);
 
         _init = false;
         _left = true;
@@ -41,7 +64,7 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
     else if (_left)
     {
         vel.linear.x = 0.0;
-        vel.angular.z = 0.1;
+        vel.angular.z = 0.3;
 
         if (abs(odomData.Yaw - _leftAngle) < _angleThreshold)
         {
@@ -55,7 +78,7 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
     else if (_right)
     {
         vel.linear.x = 0.0;
-        vel.angular.z = -0.1;
+        vel.angular.z = -0.3;
 
         if (abs(odomData.Yaw - _rightAngle) < _angleThreshold)
         {
@@ -69,7 +92,7 @@ geometry_msgs::Twist SwivelStrategy::step(BumperData bumperData, LaserData laser
     else if (_straighten)
     {
         vel.linear.x = 0.0;
-        vel.angular.z = 0.1;
+        vel.angular.z = 0.3;
 
         if (abs(odomData.Yaw - _straightenAngle) < _angleThreshold)
         {

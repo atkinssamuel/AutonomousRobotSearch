@@ -18,10 +18,11 @@ private:
     double _angleThreshold;
     double _secondsElapsed;
     double _holdoutTime;
+    bool _finished;
 
 public:
     SpinStrategy();
-    bool _finished;
+    bool getIsFinished() override;
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
 };
 

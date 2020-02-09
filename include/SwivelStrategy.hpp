@@ -19,11 +19,16 @@ private:
     double _rightAngle;
     double _straightenAngle;
     double _angleThreshold;
+    bool IsFinished;
+    
+    std::chrono::time_point<std::chrono::system_clock> _startTime;
+    uint64_t _timeElapsed;
+
 
 public:
     SwivelStrategy();
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;
-    bool IsFinished;
+    bool getIsFinished();
 };
 
 #endif
