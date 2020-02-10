@@ -15,7 +15,7 @@ MasterStrategy::MasterStrategy()
     _scanStartTime = std::chrono::system_clock::now();
     _timeSinceToggle = 0;
     _timeSinceScan = 0;
-    _scanFrequency = 25;
+    _scanFrequency = 20;
 
     _initFirstSpin = true;
     _newScan = false;
