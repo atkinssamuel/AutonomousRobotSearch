@@ -8,7 +8,7 @@
 class RandomWalkStrategy : public IStrategy
 {
 private:
-    uint64_t _turnTimeThreshold; //seconds
+    uint64_t _turnTimeThreshold;    //seconds
     float _randomTurnTimeThreshold; //seconds
     std::chrono::time_point<std::chrono::system_clock> _turnStartTime;
     std::chrono::time_point<std::chrono::system_clock> _randomTurnStartTime;
@@ -21,12 +21,12 @@ private:
     double _angularVelocity;
     double _wallThreshold;
 
-    int _maxRandomTurnTime;
+    float _maxRandomTurnTime;
 
     float angular;
     float linear;
     bool IsFinished;
-    
+
 public:
     RandomWalkStrategy();
     geometry_msgs::Twist step(BumperData bumperData, LaserData laserData, OdomData odomData) override;

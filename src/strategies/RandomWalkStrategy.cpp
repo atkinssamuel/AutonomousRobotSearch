@@ -17,7 +17,7 @@ RandomWalkStrategy::RandomWalkStrategy()
     _linearVelocity = 0.15;
     _angularVelocity = 0.5;
 
-    _maxRandomTurnTime = 2;
+    _maxRandomTurnTime = 2.0;
 
     // _wallThreshold = 0.6; *** REAL WORLD OPTIMAL ***
     _wallThreshold = 0.5;
@@ -56,7 +56,7 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
             _randomTurnStartTime = std::chrono::system_clock::now();
 
             // Set some random time to turn
-            _randomTurnTimeThreshold = rand() % _maxRandomTurnTime;
+            _randomTurnTimeThreshold = (((float)rand()) / RAND_MAX) * _maxRandomTurnTime;
         }
     }
     else if (_turningRandom)
@@ -66,7 +66,8 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
             _turningRandom = false;
             _turning = true;
         }
-        if (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _randomTurnStartTime).count() > _randomTurnTimeThreshold)
+        float time = ((float)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - _randomTurnStartTime).count()) / 1000;
+        if (time > _randomTurnTimeThreshold)
         {
             angular = 0.0;
             linear = _linearVelocity;
@@ -115,16 +116,15 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
         }
     }
 
-    if(linear > 0) {
+    if (linear > 0)
+    {
         bool rightTooClose = (laserData.getLeftDistance() < 0.75);
         bool leftTooClose = (laserData.getRightDistance() < 0.75);
         if (minLaserDistance < 0.75 || minLaserDistance > 100 || rightTooClose || leftTooClose)
         {
             linear = 0.1;
         }
-
     }
-
 
     return vel;
 };
