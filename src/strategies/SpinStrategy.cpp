@@ -4,16 +4,13 @@
 
 SpinStrategy::SpinStrategy()
 {
-    _init = true;
-    _spin = false;
+    _spin = true;
     IsFinished = false;
 
 
     _startTime = std::chrono::system_clock::now();
-    _timeElapsed = 0;
-    _failureTime = 25;
-    _angleThreshold = 0.1;
-    _holdoutTime = 2;
+    _timeElapsed = 0.0;
+    _turnTime = 11.0;
     _turningVelocity = 0.8;
 
 }
@@ -30,25 +27,16 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
     std::cout << "\n_timeElapsed: " << _timeElapsed;
 
     float minLaserDistance = laserData.getMinDistance();
-    _timeElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _startTime).count();
+    _timeElapsed = ((float) std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - _startTime).count()) / 1000;
 
-    if (_init)
-    {
-        _finalAngle = odomData.Yaw;
-
-        _init = false;
-        _spin = true;
-        IsFinished = false;
-    }
-    else if (_spin)
+    if (_spin)
     {
         vel.linear.x = 0.0;
         vel.angular.z = _turningVelocity;
 
 
-        if ((abs(odomData.Yaw - _finalAngle) < _angleThreshold && _timeElapsed > _holdoutTime)|| _timeElapsed > _failureTime)
+        if (_timeElapsed > _turnTime)
         {
-            _init = false;
             _spin = false;
             IsFinished = true;
 

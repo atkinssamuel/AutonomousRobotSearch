@@ -8,19 +8,14 @@
 class SpinStrategy : public IStrategy
 {
 private:
-    bool _init;
     bool _spin;
     geometry_msgs::Twist vel;
-    float _finalAngle;
 
     std::chrono::time_point<std::chrono::system_clock> _startTime;
 
-    uint64_t _timeElapsed;
-    uint64_t _failureTime;
+    float _timeElapsed;
+    float _turnTime;
 
-
-    double _angleThreshold;
-    double _holdoutTime;
     double _turningVelocity;
     bool IsFinished;
 
