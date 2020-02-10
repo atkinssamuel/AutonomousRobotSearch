@@ -15,8 +15,11 @@ private:
 
     std::chrono::time_point<std::chrono::system_clock> _startTime;
 
+    uint64_t _timeElapsed;
+    uint64_t _failureTime;
+
+
     double _angleThreshold;
-    double _secondsElapsed;
     double _holdoutTime;
     double _turningVelocity;
     bool IsFinished;

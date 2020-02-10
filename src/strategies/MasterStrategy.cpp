@@ -15,7 +15,7 @@ MasterStrategy::MasterStrategy()
     _scanStartTime = std::chrono::system_clock::now();
     _timeSinceToggle = 0;
     _timeSinceScan = 0;
-    _scanFrequency = 15;
+    _scanFrequency = 25;
 
     _initFirstSpin = true;
     _newScan = false;
@@ -77,7 +77,7 @@ geometry_msgs::Twist MasterStrategy::step(BumperData bumperData, LaserData laser
     else if (_newScan)
     {
         std::cout << "Initializing Scan \n";
-        strategy = new SwivelStrategy();
+        strategy = new SpinStrategy();
 
         _initFirstSpin = false;
         _newScan = false;

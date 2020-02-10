@@ -18,7 +18,10 @@ private:
     bool _turningRandom;
 
     double _linearVelocity;
+    double _angularVelocity;
     double _wallThreshold;
+
+    int _maxRandomTurnTime;
 
     float angular;
     float linear;

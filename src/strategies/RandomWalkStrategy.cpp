@@ -15,6 +15,9 @@ RandomWalkStrategy::RandomWalkStrategy()
     IsFinished = false;
 
     _linearVelocity = 0.25;
+    _angularVelocity = 0.5;
+
+    _maxRandomTurnTime = 3;
 
     // _wallThreshold = 0.6; *** REAL WORLD OPTIMAL ***
     _wallThreshold = 0.5;
@@ -53,25 +56,17 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
             _randomTurnStartTime = std::chrono::system_clock::now();
 
             // Set some random time to turn
-            _randomTurnTimeThreshold = (rand() % 8) / 2;
+            _randomTurnTimeThreshold = rand() % _maxRandomTurnTime;
         }
     }
     else if (_turningRandom)
     {
-        // Get the current time
-        std::chrono::time_point<std::chrono::system_clock> currTime = std::chrono::system_clock::now();
-
-        // Get how much time has elapsed since we started randomly tuning
-        //std::chrono::duration_cast<std::chrono::seconds>(currTime - _randomTurnStartTime).count();
-        // If we have been turning for longer than our threshold, go into the moving forward loop
-        //
-
         if (minLaserDistance < 0.5 || minLaserDistance > 100)
         {
             _turningRandom = false;
             _turning = true;
         }
-        if (std::chrono::duration_cast<std::chrono::seconds>(currTime - _randomTurnStartTime).count() > _randomTurnTimeThreshold)
+        if (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _randomTurnStartTime).count() > _randomTurnTimeThreshold)
         {
             angular = 0.0;
             linear = _linearVelocity;
@@ -109,10 +104,10 @@ geometry_msgs::Twist RandomWalkStrategy::step(BumperData bumperData, LaserData l
             float rightDist = laserData.getRightDistance();
             float leftDist = laserData.getLeftDistance();
             linear = 0.0;
-            angular = 0.4;
+            angular = _angularVelocity;
             if (leftDist < rightDist)
             {
-                angular = -0.4;
+                angular = -_angularVelocity;
             }
 
             _movingForward = false;
