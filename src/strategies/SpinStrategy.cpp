@@ -7,12 +7,10 @@ SpinStrategy::SpinStrategy()
     _spin = true;
     IsFinished = false;
 
-
     _startTime = std::chrono::system_clock::now();
     _timeElapsed = 0.0;
-    _turnTime = 11.0;
+    _turnTime = 10.1;
     _turningVelocity = 0.8;
-
 }
 
 bool SpinStrategy::getIsFinished()
@@ -27,13 +25,12 @@ geometry_msgs::Twist SpinStrategy::step(BumperData bumperData, LaserData laserDa
     std::cout << "\n_timeElapsed: " << _timeElapsed;
 
     float minLaserDistance = laserData.getMinDistance();
-    _timeElapsed = ((float) std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - _startTime).count()) / 1000;
+    _timeElapsed = ((float)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - _startTime).count()) / 1000;
 
     if (_spin)
     {
         vel.linear.x = 0.0;
         vel.angular.z = _turningVelocity;
-
 
         if (_timeElapsed > _turnTime)
         {
