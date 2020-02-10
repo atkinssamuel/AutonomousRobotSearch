@@ -11,7 +11,7 @@ SpinStrategy::SpinStrategy()
 
     _startTime = std::chrono::system_clock::now();
     _timeElapsed = 0;
-    _failureTime = 15;
+    _failureTime = 25;
     _angleThreshold = 0.1;
     _holdoutTime = 2;
     _turningVelocity = 0.8;

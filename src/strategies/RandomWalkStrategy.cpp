@@ -14,10 +14,10 @@ RandomWalkStrategy::RandomWalkStrategy()
     _randomTurnTimeThreshold = 0; //seconds
     IsFinished = false;
 
-    _linearVelocity = 0.25;
+    _linearVelocity = 0.15;
     _angularVelocity = 0.5;
 
-    _maxRandomTurnTime = 3;
+    _maxRandomTurnTime = 2;
 
     // _wallThreshold = 0.6; *** REAL WORLD OPTIMAL ***
     _wallThreshold = 0.5;
