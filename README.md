@@ -17,6 +17,9 @@ On laptop 17, run the following commands in separate terminals:
 * ```roslaunch turtlebot_rviz_launchers view_navigation.launch```
 * ```rosrun mie443_contest1 contest1```
 
+## Saving Map Instructions
+* ```rosrun map_server map_saver -f /home/turtlebot/catkin_ws/src/mie443_contest1/{dir_name}```
+
 ## Regenerating Compile Commands
 Use the following command to regenerate the compile commands used by VSCode for code linting.
 ```

@@ -9,7 +9,7 @@ SpinStrategy::SpinStrategy()
 
     _startTime = std::chrono::system_clock::now();
     _timeElapsed = 0.0;
-    _turnTime = 10.1;
+    _turnTime = 9.1;
     _turningVelocity = 0.8;
 }
 
